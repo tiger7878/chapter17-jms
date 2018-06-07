@@ -15,11 +15,26 @@
     <!--使用JmsTemplate接收消息的最大缺点在于receive()和receiveAndConvert()方法都是同步的-->
     <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate"
       c:_0-ref="connectionFactory"
-      p:defaultDestinationName="spittle.alert.queue"
-      p:messageConverter-ref="messageConverter"  />
+      p:defaultDestinationName="spittle.alert.queue" />
+    <!--p:messageConverter-ref="messageConverter"-->
 
-    <!--自定义消息转换器，默认使用：SimpleMessageConverter-->
-    <bean id="messageConverter" class="org.springframework.jms.support.converter.MappingJackson2MessageConverter" />
+    <!--自定义消息转换器，默认使用：SimpleMessageConverter
+        发现问题，如果试用了自定义的messageConverter，在使用异步接收消息处理会报错
+    -->
+    <!--<bean id="messageConverter" class="org.springframework.jms.support.converter.MappingJackson2MessageConverter" />-->
+
+    <!--异步接收消息的配置-start-->
+    <!--消息驱动的POJO-->
+    <bean id="spittleHandler" class="spittr.alerts.SpittleAlertHandler" />
+
+    <!--消息监听器容器-->
+    <jms:listener-container>
+        <!--消息监听器-->
+        <jms:listener destination="spittle.alert.queue"
+                      ref="spittleHandler"
+                      method="handleSpittleAlert" />
+    </jms:listener-container>
+    <!--异步接收消息的配置-end-->
 
     <bean id="alertService" class="spittr.alerts.AlertServiceImpl" />
 

@@ -24,11 +24,18 @@ public class AlertTest {
     //发送消息
     @Test
     public void sendSpittleAlert(){
-        Spittle spittle = new Spittle(2L, "bbb", new Date());
+        Spittle spittle = new Spittle(4L, "ccc", new Date());
         alertService.sendSpittleAlert(spittle);
+
+        //用延迟是为了看异步消息处理
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    //接收消息
+    //同步接收消息
     @Test
     public void recevieSpittleAlert(){
         Spittle spittle = alertService.recevieSpittleAlert();
