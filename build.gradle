@@ -1,0 +1,28 @@
+group 'demo'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    //spring
+    compile "org.springframework:spring-context:$springVersion"
+    compile "org.springframework:spring-jms:$springVersion"
+    compile "javax.inject:javax.inject:1"
+
+    //activemq
+    compile "org.apache.activemq:activemq-spring:$activeMQVersion"
+    compile "org.apache.xbean:xbean-spring:3.7"
+
+    //json序列化
+    compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+
+    testCompile "junit:junit-dep:$junitVersion"
+    testCompile "org.springframework:spring-test:$springVersion"
+}
