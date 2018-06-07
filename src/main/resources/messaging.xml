@@ -16,8 +16,15 @@
     <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate"
       c:_0-ref="connectionFactory"
       p:defaultDestinationName="spittle.alert.queue" />
+
+    <!--消息转换器-->
     <!--p:messageConverter-ref="messageConverter"-->
+
     <!--默认是queue，可以通过p:defaultDestination-ref指定为主题-->
+    <!-- p:defaultDestination-ref="spittleTopic"-->
+
+    <!--topic-->
+    <amq:topic id="spittleTopic" physicalName="spittle.alert.topic" />
 
     <!--自定义消息转换器，默认使用：SimpleMessageConverter
         发现问题，如果试用了自定义的messageConverter，在使用异步接收消息处理会报错
